@@ -1,16 +1,26 @@
-import React from 'react';
+import React from "react";
 
-import { CommonActions } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { colors } from '../styles/colors';
-import Adventures from '../screens/Adventures';
-import Reminders from '../screens/Reminders';
+import { CommonActions } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { BottomNavigation } from "react-native-paper";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { colors } from "../styles/colors";
+import Adventures from "../screens/Adventures";
+import Reminders from "../screens/Reminders";
+import AdventureForm from "../screens/AdventureForm";
+import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+export type RootStackParamList = {
+	Adventures: undefined;
+	Reminders: undefined;
+	AdventureForm: undefined;
+}
+
+export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const Tab = createBottomTabNavigator();
 
-export default function MyComponent() {
+function BottomTabNavigator() {
 	return (
 		<Tab.Navigator
 			id={undefined}
@@ -28,7 +38,7 @@ export default function MyComponent() {
 							target: route.key,
 							canPreventDefault: true,
 						});
-
+						
 						if (event.defaultPrevented) {
 							preventDefault();
 						} else {
@@ -43,7 +53,6 @@ export default function MyComponent() {
 						if (options.tabBarIcon) {
 							return options.tabBarIcon({ focused, color, size: 24 });
 						}
-
 						return null;
 					}}
 					activeColor={colors.onSurface}
@@ -84,5 +93,16 @@ export default function MyComponent() {
 				}}
 			/>
 		</Tab.Navigator>
-	);
+	)
+}
+
+const Stack = createNativeStackNavigator();
+
+export default function AppRootnavigator() {
+	return (
+		<Stack.Navigator id={undefined} screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="Adventures" component={BottomTabNavigator} />
+			<Stack.Screen name="AdventureForm" component={AdventureForm} />
+		</Stack.Navigator>
+	)
 }
