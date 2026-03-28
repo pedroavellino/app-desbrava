@@ -2,7 +2,9 @@ import { View } from "react-native";
 import React, { useState } from "react";
 import { colors } from "../../styles/colors";
 import AppHeader from "../../components/AppHeader";
-import { TextInput } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
+import { RootStackNavigationProp } from "../../navigation";
+import { useNavigation } from "@react-navigation/native";
 
 interface AdventureFormInputs {
   name: string;
@@ -12,6 +14,7 @@ interface AdventureFormInputs {
 }
 
 const AdventureForm = () => {
+  const navigation = useNavigation<RootStackNavigationProp>();
   const [form, setForm] = useState<AdventureFormInputs>({
     name: "",
     description: "",
@@ -62,7 +65,7 @@ const AdventureForm = () => {
           activeOutlineColor={colors.outline}
           textColor={colors.onSurface}
           multiline
-          numberOfLines={6}
+          numberOfLines={6} //Prop efetiva apenas no Android, que define o número de linhas visíveis
         />
         <TextInput
           label="Imagem"
@@ -75,6 +78,22 @@ const AdventureForm = () => {
           textColor={colors.onSurface}
           right={<TextInput.Icon icon="image" />} 
         />
+        <View 
+          style={{ 
+            marginTop: 16, 
+            display: "flex", 
+            flexDirection: "row", 
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button 
+            mode="contained"
+            onPress={() => navigation.reset({ index: 0, routes: [{ name: "Adventures" }] })}
+            style={{ marginTop: 16, backgroundColor: colors.primary }}
+            textColor={colors.black}
+            children={"Adicionar"}
+          />
+        </View>
       </View>
     </>
   )
