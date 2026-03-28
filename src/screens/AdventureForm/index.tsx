@@ -40,14 +40,40 @@ const AdventureForm = () => {
         />
         <TextInput
           label="Data"
-          placeholder="Data da aventura"
+          placeholder="XX/XX/XXXX"
           value={form.date}
           onChangeText={(text) => handleInputChange("date", text)}
-          style={{ backgroundColor: colors.surface }}
+          style={{ backgroundColor: colors.surface, marginTop: 16 }}
           mode="outlined"
           outlineColor={colors.outline}
           activeOutlineColor={colors.outline}
           textColor={colors.onSurface}
+          right={<TextInput.Icon icon="calendar" />}
+          keyboardType="email-address"
+        />
+        <TextInput
+          label="Descrição"
+          placeholder="Descrição da aventura"
+          value={form.description}
+          onChangeText={(text) => handleInputChange("description", text)}
+          style={{ backgroundColor: colors.surface, marginTop: 16 }}
+          mode="outlined"
+          outlineColor={colors.outline}
+          activeOutlineColor={colors.outline}
+          textColor={colors.onSurface}
+          multiline
+          numberOfLines={6}
+        />
+        <TextInput
+          label="Imagem"
+          placeholder="Imagem"
+          disabled
+          style={{ backgroundColor: colors.surface, marginTop: 16 }}
+          mode="outlined"
+          outlineColor={colors.outline}
+          activeOutlineColor={colors.outline}
+          textColor={colors.onSurface}
+          right={<TextInput.Icon icon="image" />} 
         />
       </View>
     </>
