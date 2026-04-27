@@ -1,10 +1,11 @@
-import { View } from "react-native";
-import React, { useState } from "react";
+import { Pressable, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { colors } from "../../styles/colors";
 import AppHeader from "../../components/AppHeader";
 import { Button, TextInput } from "react-native-paper";
 import { RootStackNavigationProp } from "../../navigation";
 import { useNavigation } from "@react-navigation/native";
+import { useCameraPermissions } from "expo-camera";
 
 interface AdventureFormInputs {
   name: string;
@@ -15,6 +16,7 @@ interface AdventureFormInputs {
 
 const AdventureForm = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
+  const [permission, requestPermission] = useCameraPermissions();
   const [form, setForm] = useState<AdventureFormInputs>({
     name: "",
     description: "",
@@ -25,6 +27,12 @@ const AdventureForm = () => {
   const handleInputChange = (key: keyof AdventureFormInputs, value: string) => {
     setForm({ ...form, [key]: value})
   };
+
+  useEffect(() => {
+    if (!!permission && !permission.granted) {
+      requestPermission();
+    }
+  }, [permission]);
 
   return (
     <>
@@ -67,17 +75,19 @@ const AdventureForm = () => {
           multiline
           numberOfLines={6} //Prop efetiva apenas no Android, que define o número de linhas visíveis
         />
-        <TextInput
-          label="Imagem"
-          placeholder="Imagem"
-          disabled
-          style={{ backgroundColor: colors.surface, marginTop: 16 }}
-          mode="outlined"
-          outlineColor={colors.outline}
-          activeOutlineColor={colors.outline}
-          textColor={colors.onSurface}
-          right={<TextInput.Icon icon="image" />} 
-        />
+        <Pressable>
+          <TextInput
+            label="Adicionar uma imagem"
+            placeholder="Adicionar uma imagem"
+            style={{ backgroundColor: colors.surface, marginTop: 16 }}
+            mode="outlined"
+            outlineColor={colors.outline}
+            activeOutlineColor={colors.outline}
+            textColor={colors.onSurface}
+            right={<TextInput.Icon icon="upload" />} 
+            readOnly
+          />
+        </Pressable>
         <View 
           style={{ 
             marginTop: 16, 
